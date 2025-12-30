@@ -9,11 +9,13 @@ import Graph3D from './components/Graph3D';
 import StatisticsCalculator from './components/StatisticsCalculator';
 import Login from './components/Login';
 import Register from './components/Register';
+import LandingPage from './components/LandingPage';
 import { Calculator as CalcIcon, Grid3x3, CheckCircle, Box, TrendingUp, LogOut, User } from 'lucide-react';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('calculator');
   const [showLogin, setShowLogin] = useState(true);
+  const [showLanding, setShowLanding] = useState(true);
   const { user, logout, isAuthenticated, isLoading } = useAuth();
 
   const tabs = [
@@ -33,6 +35,11 @@ export default function Home() {
     );
   }
 
+  // Show landing page if not authenticated and landing is visible
+  if (!isAuthenticated && showLanding) {
+    return <LandingPage onGetStarted={() => setShowLanding(false)} />;
+  }
+
   // Show login/register if not authenticated
   if (!isAuthenticated) {
     return (
@@ -45,6 +52,12 @@ export default function Home() {
             <p className="text-white/80 text-lg">
               Sign in to access powerful mathematical tools
             </p>
+            <button
+              onClick={() => setShowLanding(true)}
+              className="mt-4 text-purple-400 hover:text-purple-300 underline"
+            >
+              ← Back to Home
+            </button>
           </div>
           
           {showLogin ? (
